@@ -42,7 +42,7 @@ public class SecurityConfig  {
                 .permitAll();
 
         http.formLogin()
-                .defaultSuccessUrl("/chat", true);
+                .defaultSuccessUrl("/home", true);
         
         http.logout()
                 .logoutUrl("/logout");

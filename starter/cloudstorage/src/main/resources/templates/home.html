@@ -11,7 +11,7 @@
     <body class="p-3 mb-2 bg-light text-black">
         <div class="container">
             <div id="logoutDiv">
-                <form action="#" method="POST">
+                <form action="#" method="POST" >
                     <button type="submit" class="btn btn-secondary float-right">Logout</button>
                 </form>
             </div>
@@ -25,7 +25,7 @@
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-files" role="tabpanel" aria-labelledby="nav-files-tab">
-                        <form action="#" enctype="multipart/form-data" method="POST">
+                        <form action="#" enctype="multipart/form-data" method="POST" th:action="@{/files}">
                             <div class="container">
                                 <div class="row" style="margin: 1em;">
                                     <div class="col-sm-2">
@@ -49,13 +49,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>
-                                        <a target="_blank" class="btn btn-success">View</a>
-                                        <a  class="btn btn-danger">Delete</a>
-                                    </td>
-                                    <th scope="row">ExampleFile.txt</th>
+                                <tr th:if="${files.empty}">
+                                    <td style="text-align:center;" colspan="2">No files available.</td>
                                 </tr>
+                                <tr th:each="file : ${files}">
+                                    <td>
+                                        <a target="_blank" th:href="@{'/files/' + ${file.fileId}}" class="btn btn-success">View</a>
+                                       
+                                        <a class="btn btn-danger" type="submit" id="deleteButton">Delete</a>
+                                        
+                                    </td>
+                                    <th scope="row"><span th:text="${file.fileName}">Name</span></th>
+                                </tr>
+                                
                                 </tbody>
                             </table>
                         </div>
@@ -75,13 +81,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr th:if="${notes.empty}">
+                                        
+                                            <td style="text-align:center;" colspan="3">No notes available.</td>
+                                        
+                                    </tr>
+                                    
+                                    <tr th:each="note : ${notes}">
                                         <td>
-                                            <button type="button" class="btn btn-success">Edit</button>
-                                            <a class="btn btn-danger">Delete</a>
+                                            <button th:onclick="showNoteModal([[${note.id}]], [[${note.title}]], [[${note.description}]] )" 
+                                            type="button" class="btn btn-success">Edit</button>
+                                            <a class="btn btn-danger" th:onclick="deleteNote( [[${note.id}]] )">Delete</a>
                                         </td>
-                                        <th scope="row">Example Note Title</th>
-                                        <td>Example Note Description </td>
+                                        <th scope="row"><span th:text="${note.title}">Title</span></th>
+                                        <td><span th:text="${note.description}">Note</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -97,7 +110,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#" method="POST">
+                                        <form id="notes-from" action="#" method="POST" th:action="@{/notes}">
                                             <input type="hidden" name="noteId" id="note-id">
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Title</label>
@@ -207,6 +220,16 @@
                 $('#credential-username').val(username ? username : '');
                 $('#credential-password').val(password ? password : '');
                 $('#credentialModal').modal('show');
+            }
+            function deleteFile(fileId) {
+                const data = {
+                _csrf : $('input[name ="_csrf"]').val(),
+                fileId : fileId
+                }
+
+                const fragment = $('#files-form').attr('action');
+                const files = Files(fragment);
+                files.remove(data);
             }
         </script>
     </body>
