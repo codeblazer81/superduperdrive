@@ -41,7 +41,7 @@ public class FileService {
 
     public File getFile(File file){
 
-        return fileMapper.find(file);
+        return fileMapper.get(file);
 
     }
     

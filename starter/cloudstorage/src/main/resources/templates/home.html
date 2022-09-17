@@ -56,7 +56,7 @@
                                     <td>
                                         <a target="_blank" th:href="@{'/files/' + ${file.fileId}}" class="btn btn-success">View</a>
                                        
-                                        <a class="btn btn-danger" type="submit" id="deleteButton">Delete</a>
+                                        <a target="_blank" class="btn btn-danger" th:href="@{'/files/' + ${file.fileId} + '/delete'}" id="deleteButton">Delete</a>
                                         
                                     </td>
                                     <th scope="row"><span th:text="${file.fileName}">Name</span></th>
@@ -89,12 +89,12 @@
                                     
                                     <tr th:each="note : ${notes}">
                                         <td>
-                                            <button th:onclick="showNoteModal([[${note.id}]], [[${note.title}]], [[${note.description}]] )" 
+                                            <button th:onclick="showNoteModal([[${note.noteId}]], [[${note.noteTitle}]], [[${note.noteDescription}]] )" 
                                             type="button" class="btn btn-success">Edit</button>
-                                            <a class="btn btn-danger" th:onclick="deleteNote( [[${note.id}]] )">Delete</a>
+                                            <a class="btn btn-danger" th:href="@{'/notes/' + ${note.noteId} + '/delete'}">Delete</a>
                                         </td>
-                                        <th scope="row"><span th:text="${note.title}">Title</span></th>
-                                        <td><span th:text="${note.description}">Note</span></td>
+                                        <th scope="row"><span th:text="${note.noteTitle}">Title</span></th>
+                                        <td><span th:text="${note.noteDescription}">Note</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -110,7 +110,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form id="notes-from" action="#" method="POST" th:action="@{/notes}">
+                                        <form id="notesForm" action="#" method="POST" th:action="@{/notes}">
                                             <input type="hidden" name="noteId" id="note-id">
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Title</label>

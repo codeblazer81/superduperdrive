@@ -91,7 +91,7 @@ public class FileController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping(value = "/{fileId}")
+    @GetMapping(value = "/{fileId}/delete")
     public String removeView(
         Authentication authentication,
         HttpServletResponse response,

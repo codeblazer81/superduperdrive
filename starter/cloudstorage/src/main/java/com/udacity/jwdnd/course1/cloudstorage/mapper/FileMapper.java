@@ -24,13 +24,13 @@ public interface FileMapper {
     @Delete("DELETE FROM FILES WHERE fileId = #{fileId} AND userid = #{userId}")
     void delete(File file);
 
-    @Select("SELECT fileId, filename, contenttype, filesize, filedata, userid FROM FILES WHERE id = #{fileId} AND userid = #{userId}")
+    @Select("SELECT fileId, filename, contenttype, filesize, filedata, userid FROM FILES WHERE fileId = #{fileId} AND userid = #{userId}")
     @Results({
         @Result(property = "contentType", column = "contenttype")
     })
     File get(File file);
 
-    @Select("SELECT fileId, filename FROM FILES WHERE userid = #{userId} AND filename = #{fileName}")
+    @Select("SELECT * FROM FILES WHERE userid = #{userId} AND fileid = #{fileId}")
     File find(File file);
     
     @Select("SELECT fileId, fileName FROM FILES WHERE userid = #{userId} ORDER BY fileId DESC")
