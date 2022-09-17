@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.errorprone.annotations.Var;
 import com.udacity.jwdnd.course1.cloudstorage.services.AuthenticationService;
+import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
@@ -26,11 +27,13 @@ public class HomeController {
     private final FileService fileService;
     private final UserService userService;
     private final NoteService noteService;
+    private final CredentialService credentialService;
 
-    public HomeController (FileService fileService, UserService userService, NoteService noteService){
+    public HomeController (FileService fileService, UserService userService, NoteService noteService, CredentialService credentialService){
         this.fileService = fileService;
         this.userService = userService;
         this.noteService = noteService;
+        this.credentialService = credentialService;
     }
 
     @GetMapping()
@@ -41,6 +44,7 @@ public class HomeController {
 
             model.addAttribute("files", fileService.allFrom(userId));
             model.addAttribute("notes", noteService.allBy(userId));
+            model.addAttribute("credentials", credentialService.allBy(userId));
 
         }
         catch (Exception ignored){

@@ -1,6 +1,8 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import kotlin.jvm.Throws;
+
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -13,7 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
 import java.io.File;
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+import java.time.Duration;
+@SpringBootTest(classes = CloudStorageApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CloudStorageApplicationTests {
 
 	@LocalServerPort
@@ -52,8 +55,8 @@ class CloudStorageApplicationTests {
 		// Create a dummy account for logging in later.
 
 		// Visit the sign-up page.
-		/*
-		WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
+		
+		WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		driver.get("http://localhost:" + this.port + "/signup");
 		webDriverWait.until(ExpectedConditions.titleContains("Sign Up"));
 		
@@ -85,10 +88,10 @@ class CloudStorageApplicationTests {
 
 		/* Check that the sign up was successful. 
 		// You may have to modify the element "success-msg" and the sign-up 
-		// success message below depening on the rest of your code.
+		// success message below depening on the rest of your code.*/
 		
-		Assertions.assertTrue(driver.findElement(By.id("success-msg")).getText().contains("You successfully signed up!"));
-	*/
+		//Assertions.assertTrue(driver.findElement(By.id("success-msg")).getText().contains("You successfully signed up!"));
+	
 	}
 
 	
@@ -132,13 +135,15 @@ class CloudStorageApplicationTests {
 	 * back to the login page after a succesful sign up.
 	 * Read more about the requirement in the rubric: 
 	 * https://review.udacity.com/#!/rubrics/2724/view 
+	 * @throws InterruptedException
 	 */
 	@Test
-	public void testRedirection() {
+	public void testRedirection() throws InterruptedException {
 		// Create a test account
-		doMockSignUp("Redirection","Test","RT","123");
+		doMockSignUp("Redirection","Test","RT","123"); 
 		
 		// Check if we have been redirected to the log in page.
+		
 		Assertions.assertEquals("http://localhost:" + this.port + "/login", driver.getCurrentUrl());
 	}
 

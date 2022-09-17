@@ -30,8 +30,7 @@ public interface FileMapper {
     })
     File get(File file);
 
-    @Select("SELECT * FROM FILES WHERE userid = #{userId} AND fileid = #{fileId}")
-    File find(File file);
+ 
     
     @Select("SELECT fileId, fileName FROM FILES WHERE userid = #{userId} ORDER BY fileId DESC")
     List<File> allFrom(Integer userId);

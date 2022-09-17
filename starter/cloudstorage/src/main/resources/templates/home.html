@@ -11,7 +11,7 @@
     <body class="p-3 mb-2 bg-light text-black">
         <div class="container">
             <div id="logoutDiv">
-                <form action="#" method="POST" >
+                <form action="#" method="POST" th:action="@{/logout}">
                     <button type="submit" class="btn btn-secondary float-right">Logout</button>
                 </form>
             </div>
@@ -147,15 +147,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>
-                                        <button type="button" class="btn btn-success">Edit</button>
-                                        <a class="btn btn-danger">Delete</a>
-                                    </td>
-                                    <th scope="row">Example Credential URL</th>
-                                    <td>Example Credential Username</td>
-                                    <td>Example Credential Password</td>
-                                </tr>
+                                    <tr th:if="${credentials.empty}">
+                                        <td style="text-align:center;" colspan="4">No credentials available.</td>
+                                    </tr>
+                                    <tr th:each="credential : ${credentials}">
+                                        <td>
+                                            <button
+                                                type="button"
+                                                th:onclick="showCredentialModal(
+                                                    [[${credential.credentialId}]],
+                                                    [[${credential.url}]],
+                                                    [[${credential.username}]],
+                                                    [[${credential.password}]] )"
+                                                class="btn btn-success">Edit
+                                            </button>
+                                            <a class="btn btn-danger" th:href="@{'/credentials/' + ${credential.credentialId} + '/delete'}">Delete</a>
+                                        </td>
+                                        <th scope="row"><span th:text="${credential.url}">URL</span></th>
+                                        <td><span th:text="${credential.username}">Username</span></td>
+                                        <td><span th:text="${credential.password}">Password</span></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -170,7 +181,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#" method="POST">
+                                        <form id="credentials-form" th:action="@{/credentials}" action="#" method="POST">
                                             <input type="hidden" name="credentialId" id="credential-id">
                                             <div class="form-group">
                                                 <label for="credential-url" class="col-form-label">URL</label>
@@ -220,16 +231,6 @@
                 $('#credential-username').val(username ? username : '');
                 $('#credential-password').val(password ? password : '');
                 $('#credentialModal').modal('show');
-            }
-            function deleteFile(fileId) {
-                const data = {
-                _csrf : $('input[name ="_csrf"]').val(),
-                fileId : fileId
-                }
-
-                const fragment = $('#files-form').attr('action');
-                const files = Files(fragment);
-                files.remove(data);
             }
         </script>
     </body>

@@ -39,13 +39,20 @@ public class SecurityConfig  {
 
         http.formLogin()
                 .loginPage("/login")
+                .failureUrl("/login-error")
                 .permitAll();
 
         http.formLogin()
-                .defaultSuccessUrl("/home", true);
+                .defaultSuccessUrl("/home", true)
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .permitAll();
         
         http.logout()
-                .logoutUrl("/logout");
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/logout-success")
+                ;
 
         http.authenticationProvider(this.authenticationService);
 
