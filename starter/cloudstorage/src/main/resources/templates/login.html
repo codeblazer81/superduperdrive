@@ -11,11 +11,11 @@
     <body class="p-3 mb-2 bg-light text-black">
         <div class="container justify-content-center w-25 p-3" style="background-color: #eeeeee; margin-top: 5em;">
             <h1 class="display-5">Login</h1>
-            <form action="#" method="POST" th:action="@{/login}">
+            <form id="login-form" action="#" method="POST" th:action="@{/login}">
                 <div id="success-msg" th:if="${signupSuccess}" class="alert alert-dark">
                     You successfully signed up! Please login to continue.
                 </div>
-                <div id="loginError" th:if="${param.error}" class="alert alert-danger">
+                <div id="loginError" th:if="${authenticationError}" class="alert alert-danger">
                     Invalid username or password
                 </div>
                 <div id="logoutMessage" th:if="${param.logout}" class="alert alert-dark">
